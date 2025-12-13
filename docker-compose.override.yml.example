@@ -1,0 +1,27 @@
+# Docker Compose Override Example
+# Copy this file to docker-compose.override.yml and customize for your local setup
+# This file is gitignored and won't be committed
+
+version: '3.8'
+
+services:
+  app:
+    # Override ports if needed
+    # ports:
+    #   - "8001:8000"
+    
+    # Add additional environment variables
+    # environment:
+    #   - DEBUG=true
+    
+    # Mount additional volumes
+    # volumes:
+    #   - ./additional-data:/app/data
+    
+    # Override command for development
+    # command: npm run dev:watch
+
+  # Override Neon Local configuration
+  # neon-local:
+  #   ports:
+  #     - "5433:5432"  # Use different port if 5432 is taken

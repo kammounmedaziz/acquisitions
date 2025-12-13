@@ -1,0 +1,63 @@
+version: '3.8'
+
+# This compose file uses actual Neon Local proxy with branching capabilities
+# Requires NEON_API_KEY and NEON_PROJECT_ID to be set
+# Learn more: https://neon.tech/docs/local/neon-local
+
+services:
+  # Neon Local Proxy - Provides branching and connection pooling
+  neon-local:
+    image: neondatabase/neon-proxy:latest
+    container_name: acquisitions-neon-local
+    ports:
+      - "5432:5432"
+    environment:
+      # Get these from: https://console.neon.tech
+      - NEON_API_KEY=${NEON_API_KEY}
+      - NEON_PROJECT_ID=${NEON_PROJECT_ID}
+      # Optional: specify a specific branch
+      # - NEON_BRANCH_NAME=dev
+    networks:
+      - acquisitions-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Application Service
+  app:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    container_name: acquisitions-app-dev-neon
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount source code for hot reload
+      - ./src:/app/src
+      - ./logs:/app/logs
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=8000
+      - LOG_LEVEL=info
+      # Connect to Neon Local proxy
+      - DATABASE_URL=postgres://postgres:postgres@neon-local:5432/neondb
+      - USE_NEON_LOCAL=true
+      - ARCJET_KEY=${ARCJET_KEY}
+      - JWT_SECRET=${JWT_SECRET:-dev_jwt_secret}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-7d}
+    depends_on:
+      neon-local:
+        condition: service_healthy
+    networks:
+      - acquisitions-network
+    command: npm run dev
+    restart: unless-stopped
+
+networks:
+  acquisitions-network:
+    driver: bridge
