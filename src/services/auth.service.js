@@ -64,7 +64,7 @@ export const authenticateUser = async ({ email, password }) => {
       .limit(1);
 
     logger.info(`Query result: ${JSON.stringify(existingUser)}`);
-    
+
     if (!existingUser) {
       throw new Error('User not found');
     }

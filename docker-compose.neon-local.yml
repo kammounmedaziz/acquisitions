@@ -10,7 +10,7 @@ services:
     image: neondatabase/neon-proxy:latest
     container_name: acquisitions-neon-local
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       # Get these from: https://console.neon.tech
       - NEON_API_KEY=${NEON_API_KEY}
@@ -20,7 +20,7 @@ services:
     networks:
       - acquisitions-network
     healthcheck:
-      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432"]
+      test: ['CMD', 'pg_isready', '-h', 'localhost', '-p', '5432']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile
     container_name: acquisitions-app-dev-neon
     ports:
-      - "8000:8000"
+      - '8000:8000'
     volumes:
       # Mount source code for hot reload
       - ./src:/app/src

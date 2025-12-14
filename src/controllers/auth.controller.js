@@ -53,7 +53,11 @@ export const signIn = async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const token = jwttoken.sign({ userId: user.id, email: user.email, role: user.role });
+    const token = jwttoken.sign({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    });
 
     logger.info(`User ${email} signed in successfully`);
 

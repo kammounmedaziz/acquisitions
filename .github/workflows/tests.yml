@@ -51,16 +51,16 @@ jobs:
         run: |
           echo "## Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ steps.test.outcome }}" == "success" ]; then
             echo "✅ **Status**: All tests passed" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **Status**: Tests failed" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Coverage Report" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -f "coverage/lcov-report/index.html" ]; then
             echo "📊 Coverage reports have been generated and uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
@@ -68,7 +68,7 @@ jobs:
           else
             echo "⚠️ Coverage report not found." >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "**Environment:** NODE_ENV=$NODE_ENV" >> $GITHUB_STEP_SUMMARY

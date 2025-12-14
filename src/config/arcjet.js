@@ -1,6 +1,5 @@
 import arcjet, { shield, detectBot, slidingWindow } from '@arcjet/node';
 
-
 const aj = arcjet({
   // Get your site key from https://app.arcjet.com and set it as an environment
   // variable rather than hard coding.
@@ -12,17 +11,13 @@ const aj = arcjet({
     detectBot({
       mode: 'LIVE', // Blocks requests. Use "DRY_RUN" to log only
       // Block all bots except the following
-      allow: [
-        'CATEGORY:SEARCH_ENGINE', 
-        'CATEGORY:PREVIEW', 
-      ],
+      allow: ['CATEGORY:SEARCH_ENGINE', 'CATEGORY:PREVIEW'],
     }),
     // Create a token bucket rate limit. Other algorithms are supported.
     slidingWindow({
       mode: 'LIVE', // Enforce the rate limit
       interval: '2s',
-      max: 5
-
+      max: 5,
     }),
   ],
 });

@@ -8,23 +8,29 @@ const pool = new pg.Pool({
 
 async function testConnection() {
   try {
-    console.log('Testing connection to:', process.env.DATABASE_URL.replace(/:[^:@]+@/, ':****@'));
-    
+    console.log(
+      'Testing connection to:',
+      process.env.DATABASE_URL.replace(/:[^:@]+@/, ':****@')
+    );
+
     const client = await pool.connect();
     console.log('✅ Connected successfully!');
-    
+
     // Test query
     const result = await client.query('SELECT version()');
     console.log('✅ PostgreSQL version:', result.rows[0].version);
-    
+
     // Check if users table exists
     const tables = await client.query(`
       SELECT table_name 
       FROM information_schema.tables 
       WHERE table_schema = 'public'
     `);
-    console.log('✅ Tables:', tables.rows.map(r => r.table_name));
-    
+    console.log(
+      '✅ Tables:',
+      tables.rows.map(r => r.table_name)
+    );
+
     // Create users table if it doesn't exist
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -38,7 +44,7 @@ async function testConnection() {
       )
     `);
     console.log('✅ Users table ready');
-    
+
     client.release();
     await pool.end();
     console.log('✅ All tests passed!');

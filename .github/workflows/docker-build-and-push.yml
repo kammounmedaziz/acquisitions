@@ -54,13 +54,13 @@ jobs:
         run: |
           echo "## Docker Build and Push Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ steps.build.outcome }}" == "success" ]; then
             echo "✅ **Status**: Docker image built and pushed successfully" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **Status**: Docker build/push failed" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Published Image" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

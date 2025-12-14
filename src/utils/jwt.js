@@ -5,24 +5,22 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 const JWT_EXPIRES_IN = '1d';
 
-
 export const jwttoken = {
-  sign: (payload) => {
+  sign: payload => {
     try {
       return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
-    }catch (error) {    
+    } catch (error) {
       logger.error('Error signing JWT:', error);
       throw new error('Error signing JWT');
     }
   },
 
-  verify: (token) => {
+  verify: token => {
     try {
       return jwt.verify(token, JWT_SECRET);
     } catch (error) {
       logger.error('Error verifying JWT:', error);
       throw new Error('Invalid or expired JWT');
     }
-  }
-};  
- 
+  },
+};
