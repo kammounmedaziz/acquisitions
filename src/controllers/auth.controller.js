@@ -4,7 +4,7 @@ import { formatValidationError } from '#utils/format.js';
 import { createUser, authenticateUser } from '#services/auth.service.js';
 import { jwttoken } from '#utils/jwt.js';
 
-export const signup = async (req, res, next) => {
+export const signup = async (req, res) => {
   try {
     const validationResult = signupSchema.safeParse(req.body);
     if (!validationResult.success) {
@@ -35,7 +35,7 @@ export const signup = async (req, res, next) => {
   }
 };
 
-export const signIn = async (req, res, next) => {
+export const signIn = async (req, res) => {
   try {
     const validationResult = signinSchema.safeParse(req.body);
     if (!validationResult.success) {
@@ -77,7 +77,7 @@ export const signIn = async (req, res, next) => {
   }
 };
 
-export const signOut = async (req, res, next) => {
+export const signOut = async (req, res) => {
   try {
     // For JWT, sign out is handled client-side by removing the token
     res.status(200).json({ message: 'Sign out successful' });
